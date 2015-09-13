@@ -427,13 +427,12 @@ if __name__ == "__main__":
     a0=None
     a1=None
     aux=217
-    while type(a0)!=int:
-        a0=am.ejer6_1(aux, n)
-    while type(a1)!=int or a1==a0:
-        a1=am.ejer6_1(aux, n)
+    a0=am.ejer6_1(aux, n)[0]
+    a1=am.ejer6_1(aux, n)[0]
     print(a0, a1)
-    v=[4, a[0], a[1], n]
-    hash(m, v)
+    v=[4, a0, a1, n]
+    h=hash(m, v)
+    print(h)
 
     """
     #Ejercicio 5
