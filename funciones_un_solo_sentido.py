@@ -202,24 +202,20 @@ Usa la construcción de Merkle-Damg ̇ard para implementar una función resumen 
 de compresión (esta h fue definida por Goldwasser, Micali y Rivest). Los parámetros a 0 , a 1 y n se
 hacen públicos (la función debería admitir un parámetro en el que venga especificado el vector inicial).
 """
-"""
-a0=1
-a1=1
-x=1
 
-def funcion_hash(v, m):
-    a0=v[0]
-    a1=v[1]
-    n=v[2]
-    def h(b,x):
-        res=x**2
-        res=res*am.potencia_modular(a0, b, n)*am.potencia_modular(a1, 1-b, n)
+def hash(m, v):
+    b=v[0]
+    a0=v[1]
+    a1=v[2]
+    n=v[3]
+
+    def h(x):
+        res=am.potencia_modular(x, 2, n)*am.potencia_modular(a0, b, n)*am.potencia_modular(a1, b-1, n)
         return res
-    bloques=[]
-    res=[]
-    mb=bin(m)
-    temp=[]
-"""
+    m_bin=bin(m)
+    print(m_bin)
+
+
 
 #**************************************************#
 """
@@ -421,11 +417,25 @@ if __name__ == "__main__":
     print("Tiempo= %.3f" % (time.time()-tini))
     print("p= ", pq[0], "q=", pq[1])
     #print("p, q = ", pq)
-
+    """
     #Ejercicio 4
     print("\nEjercicio 4: hash")
+    p=gen_primo(1, 1000)
+    q=gen_primo(1, 1000)
+    n=p*q
+    m=14
+    a0=None
+    a1=None
+    aux=217
+    while type(a0)!=int:
+        a0=am.ejer6_1(aux, n)
+    while type(a1)!=int or a1==a0:
+        a1=am.ejer6_1(aux, n)
+    print(a0, a1)
+    v=[4, a[0], a[1], n]
+    hash(m, v)
 
-
+    """
     #Ejercicio 5
     print('\nEjercicio 5 - RSA')
     p=20078699
@@ -445,7 +455,7 @@ if __name__ == "__main__":
     descif=descifrado_RSA(cif, d, n)
     print("Cifrado RSA para : ", m, "=", cif)
     print("Descifrado RSA: ", descif)
-    """
+
     #Ejercicio 6
     print('\nEjercicio 6')
     n=50000000385000000551
@@ -453,3 +463,4 @@ if __name__ == "__main__":
     d=10000000074000000101
     factores=factoriza_n(e, d, n)
     print("n=", n, '\nFactores de n: p=', factores[0], " q=", factores[1])
+    """
