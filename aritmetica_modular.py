@@ -35,13 +35,13 @@ def euclides_extendido(a, b):
 #Ejercicio 2.
 #Usando el ejercicio anterior, escribe una función que calcule a^−1 mod b para cualesquiera a, b
 #enteros que sean primos relativos.
-
 def inverso_modular(a, b):
     t=euclides_extendido(a,b)
     if t[0]==1:
         return t[1]%b
     else:
         print("No existe el inverso")
+
 #Ejercicio 3.
 #Escribe una función que calcule a^b mod n para cualesquiera a, b y n enteros positivos.
 #La implementación debería tener en cuenta la representación binaria de b
@@ -72,7 +72,7 @@ def es_primo(p, iteraciones):
         return False
     else:
         esPrimo=True
-        
+
         n=p-1
         potencia2=0
         while n%2==0:
@@ -85,13 +85,10 @@ def es_primo(p, iteraciones):
             if x!=1 and x!=p-1:
                 for i in range(1, potencia2):
                     ant=x
-                    #x=pow(x, 2, p)
                     x=potencia_modular(x, 2, p)
                     if x==1 and ant!=p-1:
-                        #return False
                         esPrimo=False
                     elif x==p-1:
-                        #return True
                         esPrimo=True
                 #return False
                 esPrimo=False
@@ -104,8 +101,7 @@ def test_primos():
     test_primos=[46381, 768479, 9476407, 36780481, 562390847, 1894083629, 65398261921, 364879542899, 8590365927553, 28564333765949, 123456789101119]
     for i in test_primos:
         print('\n', "Es primo ", i, " -: ")
-        for j in range(10):
-            print(es_primo(i))
+        print(es_primo(i, 50))
 
 #Ejercicio 5.
 #Implementa el algoritmo paso enano-paso gigante para el cálculo de algoritmos discretos en Z p
@@ -157,8 +153,8 @@ def jacobi(a, n):
     Casos base a=0 return 0
                a=1 return 1
     Si a par comprobar modulo 8 y jacobi a//2, n
-    Si no par  comprobar modulo 8 y dar la  vuelta jacobi(n%a, a)
-    
+    Si no par  comprobar modulo 8 y dar la  vuelta: jacobi(n%a, a)
+
     """
 
 #Función que, dado un entero a y un primo p con (p|a) = 1, devuelve r tal que r^2 ≡ a mod p
@@ -186,7 +182,7 @@ def ejer6_1(a, p):
             return (res, p-res)
     else:
         print("jacobi (", a, p, ")!=1")
-            
+
 #Teorema chino del resto
 # @input:
 #   n - numero ecuaciones
@@ -215,7 +211,7 @@ def ejer6_2(a, p, q):
     c=[]
     n=2
     m=[p, q]
-    
+
     r=ejer6_1(a, p)
     while type(r)!=int:
         r=ejer6_1(a, p)
@@ -254,9 +250,9 @@ def pollard(p):
     if(p%2==0):
         exp2=potencia2(p)
         return (2, exp2, p//2**exp2)
-    c=random.randint(0, 20000)
-    m=random.randint(1,150000)
-    f=lambda x:x*x+c%m
+    c=random.randint(0, 2000)
+    m=random.randint(1,15000)
+    f=lambda x:potencia_modular(x, 2, p)+c%m
     x=2
     y=2
     d=1
@@ -267,7 +263,7 @@ def pollard(p):
     if d==m:
         return None
     else:
-        return (d, p//d) 
+        return (d, p//d)
 
 #Ejercicio 8.
 #Compara los tiempos de ejecución de tus implementaciones con las de tus compañeros y con las
@@ -306,13 +302,13 @@ if __name__ == "__main__":
     c=random.randint(1, 100)
     #print ("Euclides extendido (",a , b, ")=", euclides_extendido(a, b))
     #print ("Euclides extendido (",b , c, ")=", euclides_extendido(b, c))
-    
+
     #Ejecuciones ejer 2 - Inverso Modular
     #print('\nEjer 2. Inverso Modular')
     p=gen_primo(100, 1000)
     val=random.randint(101, 999)
     #print("Inverso de ", val, " modulo p=", p, " ->", inverso_modular(val, p))
-    
+
     #Ejecuciones ejer 3 - a^b mod n para cualesquiera a, b, n
     print('\nEjer 3. Potencia Modular')
     #p=gen_primo(100, 1000)
@@ -323,26 +319,26 @@ if __name__ == "__main__":
     p=110975366417606590833967199024636437460214709654546954443361638176229883140910302915147996598210506836614251268964446338737195911448213015377273363573074752120243818732263682864461580384738021460717565715722503
     print("a=", a, "^ b=", b, " mod p=", p, " resultado=", potencia_modular(a, b, p))
     #print("(a**b)%p =", (a**b)%p)
-    
+
     #Ejercicio 4
     print('\nEjer 4. Test primos Miller-Rabin')
     #test_primos()
     print (es_primo(110975366417606590833967199024636437460214709654546954443361638176229883140910302915147996598210506836614251268964446338737195911448213015377273363573074752120243818732263682864461580384738021460717565715722505, 50))
-    
+
     #Ejercicio 5
     print('\nEjer 5. Paso enano - Paso gigante')
     a=3
     b=6
     p=31
     print("Paso enano - paso gigante (", a, ",", b, ",", p, ")=", pasoEnanoGigante(a, b, p))
-    
+
     #Ejercicio 6
     print('\nEjer 6.')
     #a=646
     #p=809
     #while jacobi(a, p)!=1:
     #    a=random.randint(1, 100)
-    
+
     a=319
     p=gen_primo(1, 1000)
     r=ejer6_1(a, p)
@@ -351,16 +347,13 @@ if __name__ == "__main__":
         if type(r)!=int:
             r=r[0]
         print("Comprobacion:", r, "**2", "-", a, "%", p, "=", ((r**2)-a)%p)
-    
-    #Prueba Teorema chino restos    
+
+    #Prueba Teorema chino restos
     n=2
     a=[5495, 7569]
     m=[7643, 8765]
     print("Teorema chino restos. Coef:", a, " Mod:", m, "Resultado=", teorema_chino_resto(n, a , m))
-    
-    #a=random.randint(1, 100)
-    #p=gen_primo(1, 100)
-    #q=gen_primo(1, 100)
+
     a=20
     p=11
     q=19
@@ -370,10 +363,13 @@ if __name__ == "__main__":
     """
     #Ejercicio 7
     print('\nEjer 7. Factorizacion Fermat y Pollard')
-    n=random.randint(1, 100000)
+    #n=random.randint(1, 100000)
+    p=gen_primo(1, 1000000)
+    q=gen_primo(1, 100000)
+    n=p*q
     if n%2==0:
         n+=1
-    print("n=", n)
+    print("p:", p, "q:", q, "\np*q=n=", n)
+    #print("Es primo:", es_primo(n, 20))
     print('Factorizacion Fermat: ', fermat(n))
     print('Factorizacion Pollard: ', pollard(n))
-    

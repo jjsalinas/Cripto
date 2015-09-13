@@ -4,7 +4,7 @@
 """
 import random
 import fractions
-import aritmetica_modular_bis as am
+import aritmetica_modular as am
 import numpy as np
 import time
 import math
@@ -52,7 +52,6 @@ para facilitar el criterio, es bueno escoger p de forma que (p − 1)/2 sea tamb
 Definimos f : Z p → Z p , x → α x .
 Calcula el inverso de tu fecha de nacimiento con el formato AAAAMMDD.
 """
-
 #clave privada x
 global clave_x
 def funcion_ax(p):
@@ -126,7 +125,7 @@ def funcion_ax(alfa, val , p):
 def descifrar_ax(alfa, fax, inv, p):
     a=am.potencia_modular(alfa, inv, p)
     return funcion_ax(alfa, a, p)
-    
+
 
 def inversa_ax(alfa, val, p):
     inv=am.inverso_modular(val, p)
@@ -159,7 +158,7 @@ def descomposicion_ejer3(n, f1, f2):
     r1=f1+f2
     if f1<f2:
         r2=f2-f1
-    else:    
+    else:
         r2=f1-f2
     mcd1=am.euclides_extendido(r1, n)[0]
     if mcd1!=1:
@@ -170,7 +169,7 @@ def descomposicion_ejer3(n, f1, f2):
             return (mcd2, n//mcd2)
     if am.es_primo(n, 50):
         return (n, 1)
-    
+
 #Muy muy lento el encontrar raices iguales
 def raices_iguales(n):
     f = lambda x:am.potencia_modular(x, 2, n)
@@ -207,7 +206,6 @@ hacen públicos (la función debería admitir un parámetro en el que venga espe
 a0=1
 a1=1
 x=1
-
 
 def funcion_hash(v, m):
     a0=v[0]
@@ -250,7 +248,7 @@ def cifrado_RSA(m, e, n):
         return c
     else:
         return "Mensaje m no es primo relativo con n"
-    
+
 def descifrado_RSA(c, d, n):
     inv=am.potencia_modular(c, d, n)
     return inv
@@ -274,7 +272,7 @@ def factoriza_n(e, d, n):
     divisor=am.euclides_extendido(x, n)[0]
     if divisor!=1:
         return (divisor, n//divisor)
-    
+
     y=am.potencia_modular(x, b, n)
     r1=(y-1)%n
     r2=(y+1)%n
@@ -294,7 +292,7 @@ def factoriza_n(e, d, n):
             factores.append(f2)
             return factores
             break
-        
+
     return factores
 #**************************************************#
 """
@@ -329,7 +327,7 @@ def genera_claves(fichero_cpublica, fichero_cprivada):
     publica.write(n)
     publica.write(e)
     privada.write(d)
-    
+
 
 def firmado(fichero_m, fichero_cpublica, fichero_cprivada, fichero_salida):
     try:
@@ -350,7 +348,7 @@ def firmado(fichero_m, fichero_cpublica, fichero_cprivada, fichero_salida):
     cpublica.close()
     cprivada.close()
     f_salida.close()
-    
+
 def verificar_firma(fichero_m, fichero_cpublica, fichero_firma):
     try:
         mensaje=open(fichero_m, 'r')
@@ -399,14 +397,14 @@ if __name__ == "__main__":
     llave, c= knapsack(n, u, l_numeros, m)
     print("Knapsack para el mensaje: ", m, '\nResultado mensaje cifrado: ', c, " Llave", llave)
     print("Descifrado:", inv_knapsack(n, u, llave, c))
-    
+
     #Ejemplo ejecuciones ejercicio 2
     print("\nEjercicio 2: ElGammal")
     p=gen_safeprime(20078699, 10000000000)
     m=19920608
     test_gammal(p, m)
-    
-    """
+
+
     #Ejercicio 3
     print("\nEjercicio 3 - Descomposicion primos")
     #ejer3()
@@ -424,11 +422,10 @@ if __name__ == "__main__":
     print("p= ", pq[0], "q=", pq[1])
     #print("p, q = ", pq)
 
-    """
     #Ejercicio 4
     print("\nEjercicio 4: hash")
-    
-    
+
+
     #Ejercicio 5
     print('\nEjercicio 5 - RSA')
     p=20078699
@@ -448,7 +445,7 @@ if __name__ == "__main__":
     descif=descifrado_RSA(cif, d, n)
     print("Cifrado RSA para : ", m, "=", cif)
     print("Descifrado RSA: ", descif)
-    
+    """
     #Ejercicio 6
     print('\nEjercicio 6')
     n=50000000385000000551
@@ -456,4 +453,3 @@ if __name__ == "__main__":
     d=10000000074000000101
     factores=factoriza_n(e, d, n)
     print("n=", n, '\nFactores de n: p=', factores[0], " q=", factores[1])
-    """
