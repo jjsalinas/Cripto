@@ -2,6 +2,7 @@
     Jose Antonio Jimenez Salinas
     Practicas CRIP - Funciones de un solo sentido
 """
+# -*- coding: utf-8 -*- 
 import random
 import fractions
 import aritmetica_modular as am
@@ -212,6 +213,7 @@ def hash(m, v):
     def h(x):
         res=am.potencia_modular(x, 2, n)*am.potencia_modular(a0, b, n)*am.potencia_modular(a1, b-1, n)
         return res
+        
     m_bin=bin(m)
     print(m_bin)
 
@@ -310,34 +312,41 @@ Deberá responder si la firma es o no válida.
 """
 import hashlib
 def genera_claves(fichero_cpublica, fichero_cprivada):
-    try:
-        publica=open(fichero_cpublica, 'r+')
-        privada=open(fichero_cprivada, 'r+')
-    except:
-        print("Error abriendo los ficheros")
+    #try:
+    publica=open(fichero_cpublica, 'r+')
+    privada=open(fichero_cprivada, 'r+')
+    #except:
+     #   print("Error abriendo los ficheros")
     p=gen_primo(1000, 10000000000)
     q=gen_primo(1000, 10000000000)
     n=p*q
     e=calculo_e(p, q)
     d=calculo_d(p, q, e)
-    publica.write(n)
-    publica.write(e)
-    privada.write(d)
-
+    
+    publica.write(str(n))
+    publica.write('\n')
+    publica.write(str(e))
+    privada.write(str(d))
+    publica.close()
+    privada.close()
 
 def firmado(fichero_m, fichero_cpublica, fichero_cprivada, fichero_salida):
     try:
         mensaje=open(fichero_m, 'r')
         cpublica=open(fichero_cpublica, 'r')
         cprivada=open(fichero_cprivada, 'r')
-        f_salida=open(fichero_salida, 'r+')
+        f_salida=open(fichero_salida, 'rw')
     except:
         print("Error abriendo los ficheros")
-    m=int(mensaje.read())
-    resumen=hashlib.sha1(m)
+    m=mensaje.read()
+    m=m.encode("utf-8")
+    resumen=hashlib.sha1()
+    resumen.update(m)
+    resumen.digest()
     #RSA
     n=int(cpublica.readline())
     d=int(cprivada.read())
+    #Cifrado RSA trabaja sobre un mensaje m de valores int (hay que pasar de unicode a int¿?)
     firma=cifrado_RSA(resumen, d, n)
     f_salida.write(firma)
     mensaje.close()
@@ -417,7 +426,7 @@ if __name__ == "__main__":
     print("Tiempo= %.3f" % (time.time()-tini))
     print("p= ", pq[0], "q=", pq[1])
     #print("p, q = ", pq)
-    """
+    
     #Ejercicio 4
     print("\nEjercicio 4: hash")
     p=gen_primo(1, 1000)
@@ -433,8 +442,7 @@ if __name__ == "__main__":
     v=[4, a0, a1, n]
     h=hash(m, v)
     print(h)
-
-    """
+    
     #Ejercicio 5
     print('\nEjercicio 5 - RSA')
     p=20078699
@@ -463,3 +471,10 @@ if __name__ == "__main__":
     factores=factoriza_n(e, d, n)
     print("n=", n, '\nFactores de n: p=', factores[0], " q=", factores[1])
     """
+    fpub="cpub.txt"
+    fpriv="cpriv.txt"
+    fmen="texto.txt"
+    fsal="salida.txt"
+    genera_claves("cpub.txt", "cpriv.txt")
+    firmado(fmen, fpub, fpriv, fsal)
+
