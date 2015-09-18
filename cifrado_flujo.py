@@ -17,7 +17,7 @@ def golomb(lista):
         print ("Postulado #1: True")
         rachas={}
         rachas[1]= rachas[11]= rachas[111]= rachas[1111]= 0
-        #Calculo de las rachas    
+        #Calculo de las rachas
         rachas[1]=lista.count(1)
         for i in range(n):
             if lista[i:i+2]==[1,1]:
@@ -81,18 +81,21 @@ def LFSR(coef, semilla, lenSalida):
 #F(x,y,z,t)= z + xyz + t + 1
 def NLFSR(polinomio, semilla, k):
     res=semilla[:]
-    while len(res)<k:        
+    while len(res)<k:
         l=len(res)-1
         l_func=len(polinomio)
         nvar=len(polinomio[0])
         aux=0
         for i in range(l_func):
+            aux2=1
             for j in range(nvar):
-                aux+=res[l-(nvar-1)+j]*polinomio[i][j]
+                if polinomio[i][j]==1:
+                    aux2*=res[l-(nvar-1)+j]
+            aux+=aux2
         aux=aux%2
         res.append(aux)
     return res
-    
+
 #Ejercicio 4
 #Implementa el generador de Geffe ([1, 6.50]).
 #Encuentra ejemplos donde el periodo de la salida es p 1 p 2 p 3 , con p 1 , p 2 y p 3
@@ -159,7 +162,7 @@ def Berlekamp_Massey(secuencia):
             while(j+N-m)<n:
                c[(j+N-m)]^=b[j]
                j+=1
-            
+
             if L<=N/2:
                 L=N+1-L
                 m=N
@@ -174,7 +177,7 @@ def Berlekamp_Massey_v2(secuencia):
         if secuencia[i]==0:
             k=i
             break
-    
+
     f=[0 for i in range(n)]
     g=f[:]
     f[0]=1
@@ -183,7 +186,7 @@ def Berlekamp_Massey_v2(secuencia):
     a=k
     b=0
     r=k+1
-    
+
     while r<n:
         d=0
         for i in range(l):
@@ -208,4 +211,3 @@ def Berlekamp_Massey_v2(secuencia):
     #Devuelve +1 sobre la complejidad L real de la secuencia
     l-=1
     return l, f
-                    

@@ -22,6 +22,7 @@ if __name__ == "__main__":
     #l=[0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1]
     print ("Golomb ( ", l, " ) :", golomb(l))
     l=[1,0,1,0,1,1,0,0]
+    l=[1,0,1,1,1,1,0,0,0,1,0,0,1,1,0]
     print ("Golomb ( ", l, " ) :", golomb(l))
 
     #Ejer 2
@@ -30,8 +31,8 @@ if __name__ == "__main__":
     #coeficientes=[0, 0, 1, 1] #x^4 + x^3 + 1
     #semilla=[1,0,0,1]
     #Polinomios primitivos:  periodo = 2^L - 1
-    coeficientes=[1, 0, 0, 1] #x^4 + x + 1
-    semilla=[0,0,0,1]
+    coeficientes=[0, 0,1, 1] #x^4 + x + 1
+    semilla=[1,0,1,1]
     #coeficientes=[0, 1, 0, 0, 1] #x^5 + x^2 + 1
     #semilla=[0,1,0,1,0]
     #Polinomio reducible
@@ -47,7 +48,7 @@ if __name__ == "__main__":
     #Ejer 3
     #Ejemplos NLFSR
     #F(x,y,z,t)=z + xyz + t + 1
-    polinomio=[[0,0,1,0], [1,1,1,0], [0,0,0,1], [0,0,0,0]]
+    polinomio=[[0,0,0,0]]
     semilla_nlfsr=[1,0,1,1]
     lonNLFSR=18
     print('\nNLFSR\nPolinomio: ', polinomio, '\nSemilla: ', semilla_nlfsr, '\nLongitud salida: ', lonNLFSR )
@@ -66,7 +67,9 @@ if __name__ == "__main__":
     #secuencia=[0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0] # L=6
     #secuencia=[0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1] # L=5
     secuencia=[0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0] #L=6
+
     #sumando1, L=4, periodo=15
+
     sumando1=[0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1]
     sumando2=[0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1]
 
@@ -77,8 +80,9 @@ if __name__ == "__main__":
     #print('\nCalculo complejidad Lineal\nSecuencia: ', secuencia)
     #print('Su complejidad Lineal: L =', Berlekamp_Massey(secuencia), '\nSu complejidad Lineal (v2): L =', Berlekamp_Massey_v2(secuencia)[0])
     print('\nComplejidad Lineal\nSecuencia (resultado Suma): \n', secuencia_suma)
-    print('Su complejidad Lineal: L =', Berlekamp_Massey(secuencia_suma), '\nSu complejidad Lineal (v2): L =', Berlekamp_Massey_v2(secuencia_suma)[0])
+    print('Su complejidad Lineal: L =', Berlekamp_Massey(secuencia_suma), '\nSu complejidad Lineal (v2): L =', Berlekamp_Massey_v2(secuencia_suma))
     print('\nComplejidad Lineal\nSecuencia (resultado Producto): ', secuencia_prod)
-    print('Su complejidad Lineal: L =', Berlekamp_Massey(secuencia_prod), '\nSu complejidad Lineal (v2): L =', Berlekamp_Massey_v2(secuencia_prod)[0])
+    print('Su complejidad Lineal: L =', Berlekamp_Massey(secuencia_prod), '\nSu complejidad Lineal (v2): L =', Berlekamp_Massey_v2(secuencia_prod))
     nlfsr=[1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1]
-    print("Complejidad lineal del lnfsr ejer 3: ", Berlekamp_Massey_v2(nlfsr)[0])
+
+    print("Complejidad lineal del lnfsr ejer 3: ", Berlekamp_Massey_v2([1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0] ))

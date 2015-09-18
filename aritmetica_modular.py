@@ -87,11 +87,12 @@ def es_primo(p, iteraciones):
                     ant=x
                     x=potencia_modular(x, 2, p)
                     if x==1 and ant!=p-1:
-                        esPrimo=False
+                        return False
                     elif x==p-1:
                         esPrimo=True
-                #return False
-                esPrimo=False
+                        break;
+                return False
+                #esPrimo=False
             else:
                 #return True
                 esPrimo=True
@@ -111,12 +112,15 @@ def pasoEnanoGigante(a, b, p):
     lista=[]
     for i in range(m):
         lista.append([i, potencia_modular(a, i, p)])
-    lista.sort(key=lambda x:x[1])
+    print(lista)
+    #lista.sort(key=lambda x:x[1])
     inv_am=potencia_modular(inverso_modular(a, p), m, p)
     y=b%p
     listah=[]
     for i in range(m-1):
         aux=[i[1] for i in lista]
+        print(aux)
+        print(y)
         if y in aux:
             j=aux.index(y)
             return (i*m+j)%p
@@ -181,7 +185,7 @@ def ejer6_1(a, p):
                 j+=1
             return (res, p-res)
     else:
-        print("jacobi (", a, p, ")!=1")
+        return("jacobi (", a, p, ")!=1")
 
 #Teorema chino del resto
 # @input:
@@ -252,7 +256,7 @@ def pollard(p):
         return (2, exp2, p//2**exp2)
     c=random.randint(0, 2000)
     m=random.randint(1,15000)
-    f=lambda x:potencia_modular(x, 2, p)+c%m
+    f=lambda x:potencia_modular(x, 2, p)+1
     x=2
     y=2
     d=1
@@ -265,25 +269,6 @@ def pollard(p):
     else:
         return (d, p//d)
 
-#Ejercicio 8.
-#Compara los tiempos de ejecución de tus implementaciones con las de tus compañeros y con las
-#primitivas de algunos paquetes de cálculo simbólico como ( GAP , M ATHEMATICA , maxima , . . . ).
-def comparativa():
-    import time
-    ini=time.time()
-    for i in range(1000):
-        #euclides_extendido(393, 267)
-        #inverso_modular(391, 542)
-        #potencia_modular(86, 72, 145)
-        #for j in range(10): es_primo(123456789101119)
-        #pasoEnanoGigante(9, 11, 19)
-        #jacobi(5, 299)
-        #ejer6_1(19, 31)
-        #ejer6_2(19, 31, 5)
-        #fermat(132)
-        pollard(40259)
-    t=time.time()-ini
-    return t
 #*************************************#
 def gen_primo(a, b):
     x=random.randint(a, b)
@@ -292,22 +277,22 @@ def gen_primo(a, b):
     return x
 #*************************************#
 if __name__ == "__main__":
-    """
+
     #Ejercicio 1 - Algoritmo Euclides Extendido
     #print('\nEjer 1. Euclides Extendido')
     #a=gen_primo(1, 100)
     #b=random.randint(1, 100)
     a=2
-    b=0
+    b=101
     c=random.randint(1, 100)
-    #print ("Euclides extendido (",a , b, ")=", euclides_extendido(a, b))
-    #print ("Euclides extendido (",b , c, ")=", euclides_extendido(b, c))
+    print ("Euclides extendido (",a , b, ")=", euclides_extendido(a, b))
+    print ("Euclides extendido (",b , c, ")=", euclides_extendido(b, c))
 
     #Ejecuciones ejer 2 - Inverso Modular
     #print('\nEjer 2. Inverso Modular')
     p=gen_primo(100, 1000)
     val=random.randint(101, 999)
-    #print("Inverso de ", val, " modulo p=", p, " ->", inverso_modular(val, p))
+    print("Inverso de ", val, " modulo p=", p, " ->", inverso_modular(val, p))
 
     #Ejecuciones ejer 3 - a^b mod n para cualesquiera a, b, n
     print('\nEjer 3. Potencia Modular')
@@ -315,32 +300,30 @@ if __name__ == "__main__":
     #a=random.randint(1, 1000)
     #b=random.randint(1, 1000)
     a=134580987679025822862582825852825828
-    b=110975366417606590833967199024636437460214709654546954443361638176229883140910302915147996598210506836614251268964446338737195911448213015377273363573074752120243818732263682864461580384738021460717565715722502
-    p=110975366417606590833967199024636437460214709654546954443361638176229883140910302915147996598210506836614251268964446338737195911448213015377273363573074752120243818732263682864461580384738021460717565715722503
+    b=449417999055441493994709297093108513015373787049558499205492347871729927573118262811508386655998299074566974373711472560655026288668094291699357843464363003144674940345912431129144354948751003607115263071543162
+    p=449417999055441493994709297093108513015373787049558499205492347871729927573118262811508386655998299074566974373711472560655026288668094291699357843464363003144674940345912431129144354948751003607115263071543163
     print("a=", a, "^ b=", b, " mod p=", p, " resultado=", potencia_modular(a, b, p))
     #print("(a**b)%p =", (a**b)%p)
 
     #Ejercicio 4
     print('\nEjer 4. Test primos Miller-Rabin')
     #test_primos()
-    print (es_primo(110975366417606590833967199024636437460214709654546954443361638176229883140910302915147996598210506836614251268964446338737195911448213015377273363573074752120243818732263682864461580384738021460717565715722505, 50))
+    print ("p=",p, "-> ", es_primo(449417999055441493994709297093108513015373787049558499205492347871729927573118262811508386655998299074566974373711472560655026288668094291699357843464363003144674940345912431129144354948751003607115263071543167, 500))
 
     #Ejercicio 5
     print('\nEjer 5. Paso enano - Paso gigante')
     a=3
-    b=6
-    p=31
+    b=5
+    p=7
     print("Paso enano - paso gigante (", a, ",", b, ",", p, ")=", pasoEnanoGigante(a, b, p))
 
     #Ejercicio 6
     print('\nEjer 6.')
     #a=646
     #p=809
-    #while jacobi(a, p)!=1:
-    #    a=random.randint(1, 100)
 
-    a=319
-    p=gen_primo(1, 1000)
+    a=41
+    p=307
     r=ejer6_1(a, p)
     print("r tq r^2 ≡ ", a, " mod ", p, "  r=", r)
     if r!=None:
@@ -360,13 +343,16 @@ if __name__ == "__main__":
     r=ejer6_2(a, p , q)
     print("Raices cuadradas de a=", a, "en mod p=", p, "y en mod q=", q, '\nResultado=', r)
     print(r, "**2-", a, "%", p*q, "=", (r**2-a)%(p*q))
-    """
+
     #Ejercicio 7
     print('\nEjer 7. Factorizacion Fermat y Pollard')
     #n=random.randint(1, 100000)
-    p=gen_primo(1, 1000000)
-    q=gen_primo(1, 100000)
+    #p=gen_primo(1, 1000000)
+    p=1
+    q=1
+    #q=gen_primo(1, 100000)
     n=p*q
+    n=193723553
     if n%2==0:
         n+=1
     print("p:", p, "q:", q, "\np*q=n=", n)

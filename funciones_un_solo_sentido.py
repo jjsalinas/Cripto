@@ -2,7 +2,7 @@
     Jose Antonio Jimenez Salinas
     Practicas CRIP - Funciones de un solo sentido
 """
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 import random
 import fractions
 import aritmetica_modular as am
@@ -109,43 +109,6 @@ def test_gammal(primo, mensaje):
     print ("Mensaje descifrado: ", desc)
 
 #**************************************************#
-"""
-global alfa
-#Ejer 2 V2
-def calculo_alfa(p):
-    q=(p-1)//2
-    alfa=random.randint(2, p-2)
-    while(am.potencia_modular(alfa, q, p)==1):
-        alfa=random.randint(2, p-2)
-    return alfa
-
-def funcion_ax(alfa, val , p):
-    res=am.potencia_modular(alfa, val, p)
-    return res
-
-def descifrar_ax(alfa, fax, inv, p):
-    a=am.potencia_modular(alfa, inv, p)
-    return funcion_ax(alfa, a, p)
-
-
-def inversa_ax(alfa, val, p):
-    inv=am.inverso_modular(val, p)
-    return inv
-
-def test_fax():
-    val=19920608
-    #p=gen_safeprime()
-    p=3363260039
-    alfa=calculo_alfa(p)
-    fax=funcion_ax(alfa, val, p)
-    invfax=inversa_ax(alfa, val, p)
-    desc=descifrar_ax(alfa, fax, invfax, p)
-    print("p= ", p, "val=", val, " fax=", fax)
-    print("inverso para val: ", invfax)
-    print("descifrado: ", desc)
-    print(funcion_ax(alfa, desc, p))
-"""
-
 #**************************************************#
 """
 Ejercicio 3.
@@ -157,10 +120,7 @@ Usando esta información, calcula p y q (mira lademostración de [1, Lemma 2.43]
 #Muy Rápido esta descomposición
 def descomposicion_ejer3(n, f1, f2):
     r1=f1+f2
-    if f1<f2:
-        r2=f2-f1
-    else:
-        r2=f1-f2
+    r2=abs(f1-f2)
     mcd1=am.euclides_extendido(r1, n)[0]
     if mcd1!=1:
         return (mcd1, n//mcd1)
@@ -213,7 +173,7 @@ def hash(m, v):
     def h(x):
         res=am.potencia_modular(x, 2, n)*am.potencia_modular(a0, b, n)*am.potencia_modular(a1, b-1, n)
         return res
-        
+
     m_bin=bin(m)
     print(m_bin)
 
@@ -322,7 +282,7 @@ def genera_claves(fichero_cpublica, fichero_cprivada):
     n=p*q
     e=calculo_e(p, q)
     d=calculo_d(p, q, e)
-    
+
     publica.write(str(n))
     publica.write('\n')
     publica.write(str(e))
@@ -335,7 +295,7 @@ def firmado(fichero_m, fichero_cpublica, fichero_cprivada, fichero_salida):
         mensaje=open(fichero_m, 'r')
         cpublica=open(fichero_cpublica, 'r')
         cprivada=open(fichero_cprivada, 'r')
-        f_salida=open(fichero_salida, 'rw')
+        f_salida=open(fichero_salida, 'r+')
     except:
         print("Error abriendo los ficheros")
     m=mensaje.read()
@@ -391,14 +351,14 @@ def gen_safeprime(a, b):
     return p
 #**************************************************#
 if __name__ == "__main__":
-    """
+
     #Ejemplo ejecuciones ejer 1: Knapsack
     print("Ejercicio 1: knapsack")
     l_numeros=[1, 3, 7, 15, 31, 63, 127, 255]
     n=557
     u=323
     #m=[0,1,1,0,0,1,0,1] #1228
-    m=[1,1,1,1,0,0,0,0]
+    m=[1,0,1,0,1,0,1,0]
     llave, c= knapsack(n, u, l_numeros, m)
     print("Knapsack para el mensaje: ", m, '\nResultado mensaje cifrado: ', c, " Llave", llave)
     print("Descifrado:", inv_knapsack(n, u, llave, c))
@@ -412,37 +372,21 @@ if __name__ == "__main__":
 
     #Ejercicio 3
     print("\nEjercicio 3 - Descomposicion primos")
-    #ejer3()
-    #n=48478872564493742276963
-    #f1=12
-    #f2=37659670402359614687722
-    p=gen_primo(10000, 100000)
-    q=gen_primo(1000, 10000)
-    n=p*q
-    print("n=", n)
-    #pq=descomposicion_ejer3(n, f1, f2)
-    tini=time.time()
-    pq=descomposicion_ejer3_v2(n)
-    print("Tiempo= %.3f" % (time.time()-tini))
-    print("p= ", pq[0], "q=", pq[1])
+    n=48478872564493742276963
+    f1=12
+    f2=37659670402359614687722
+    des=descomposicion_ejer3(n, f1, f2)
+    print("Descomposicion de n=", n, "\nRes: ", des)
+    #p=gen_primo(10000, 100000)
+    #q=gen_primo(1000, 10000)
+    #n=p*q
+    #print("n=", n)
+    #tini=time.time()
+    #pq=descomposicion_ejer3_v2(n)
+    #print("Tiempo= %.3f" % (time.time()-tini))
+    #print("p= ", pq[0], "q=", pq[1])
     #print("p, q = ", pq)
-    
-    #Ejercicio 4
-    print("\nEjercicio 4: hash")
-    p=gen_primo(1, 1000)
-    q=gen_primo(1, 1000)
-    n=p*q
-    m=14
-    a0=None
-    a1=None
-    aux=217
-    a0=am.ejer6_1(aux, n)[0]
-    a1=am.ejer6_1(aux, n)[0]
-    print(a0, a1)
-    v=[4, a0, a1, n]
-    h=hash(m, v)
-    print(h)
-    
+
     #Ejercicio 5
     print('\nEjercicio 5 - RSA')
     p=20078699
@@ -470,11 +414,3 @@ if __name__ == "__main__":
     d=10000000074000000101
     factores=factoriza_n(e, d, n)
     print("n=", n, '\nFactores de n: p=', factores[0], " q=", factores[1])
-    """
-    fpub="cpub.txt"
-    fpriv="cpriv.txt"
-    fmen="texto.txt"
-    fsal="salida.txt"
-    genera_claves("cpub.txt", "cpriv.txt")
-    firmado(fmen, fpub, fpriv, fsal)
-
